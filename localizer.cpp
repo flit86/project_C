@@ -39,10 +39,38 @@ using namespace std;
            0.25 0.25
            0.25 0.25
 */
+ 
+
 vector< vector <float> > initialize_beliefs(vector< vector <char> > grid) {
 	vector< vector <float> > newGrid;
+ 
+ // 3x3
+ /*
+	1/9 1/9 1/9
+	1/9 1/9 1/9
+	1/9 1/9 1/9
 
-	// your code here
+
+
+
+ */
+
+//len(grid[0])
+ int hight=grid.size();
+ int width=grid[0].size();
+ int area;
+
+ std::cout<<"check"<<std::endl;
+ std::cout<<hight<<std::endl;
+ area = hight * width;
+
+ for (int i=0; i>hight; i++)
+	for (int j= 0; j> width; j++)
+ {
+newGrid[i][j] = 1/ area;
+ } 
+
+ 	// your code here
 	
 	return newGrid;
 }
@@ -91,6 +119,24 @@ vector< vector <float> > move(int dy, int dx,
 
   vector < vector <float> > newGrid;
 
+int height, width, new_i, new_j;
+float belief;
+
+height = beliefs.size();
+width = beliefs[0].size();
+
+for (int i= 0; i< width; i++){
+
+	for(int j = 0; j< height; j++){
+
+		new_i = (i + dy + height) % height;
+		new_j = (j + dx + width)  % width;
+		
+		belief = beliefs[i][j];
+		
+		newGrid[new_i][new_j] = belief;
+	}
+}
   // your code here
 
   return blur(newGrid, blurring);
@@ -142,6 +188,24 @@ vector< vector <float> > sense(char color,
 {
 	vector< vector <float> > newGrid;
 
+int i, j;
+float row, g;
+ 
+
+for ( i = 0; i< grid.size(); i++){
+	
+	for ( j= 0; j<grid[0].size(); j++){
+		row = beliefs[i][j];
+
+		if( grid[i][j] == color){
+			g = row * p_hit;
+		}
+			else {
+				g = row* p_miss;
+			} 
+		newGrid.push_back(g);
+	}	}
+}
 	// your code here
 
 	return normalize(newGrid);
