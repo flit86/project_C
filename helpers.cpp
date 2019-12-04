@@ -37,7 +37,19 @@ vector< vector<float> > normalize(vector< vector <float> > grid) {
 	vector< vector<float> > newGrid;
 
 	// todo - your code here
+float  sum = 0;
+for(int i=0; i < grid.size(); i++){
+	for (int j = 0; j < grid[0].size(); j++){
+		sum = sum + grid[i][j];
+	}
+}
+int i, j;
 
+for (i= 0; i < grid.size(); i++){
+	for(j=0; j < grid[0].size(); j++){
+		newGrid[i][j] = grid[i][j] / sum;
+	}
+}
 	return newGrid;
 }
 
@@ -77,7 +89,97 @@ vector< vector<float> > normalize(vector< vector <float> > grid) {
 vector < vector <float> > blur(vector < vector < float> > grid, float blurring) {
 
 	vector < vector <float> > newGrid;
+	vector < vector < float> >window;
+	vector <float> newRow;
 	
+int height, width;
+
+height = grid.size();
+width = grid[0].size();
+
+float center, corner, adjacent, value, mult, grid_val;
+
+center = 1.0 - blurring;
+corner = blurring / 12.0;
+adjacent = blurring / 6.0;
+
+
+
+for (int i=0; i < 3; i++){
+	row.clear();
+	for (int j= 0; j <3; j++){
+		switch (i)
+		{
+			case 0:
+			switch (j)
+			{
+				case 0:
+					value = corner;
+					break;
+				case 1:
+					value = adjacent;
+					break;
+				case 2:
+					value = corner;
+					break;
+			case 1:
+			switch (j)
+			{
+				case 0:
+					value = adjacent;
+					break;
+				case 1:
+					value = center;
+					break;
+				case 2:
+					value = adjacent;
+					break;
+			case 2:
+			switch (j)
+			{
+				case 0:
+					value = corner;
+					break;
+				case 1:
+					value = adjacent;
+					break;
+				case 2:
+					value = corner;
+					break;
+			}		
+			break;
+		}
+		row.push_back(value);
+	}
+	window.push_back(row);
+}
+
+for (int i = 0; i < width; i++){
+	newRow.clear()
+	for (int j= 0; j < height; j++){
+		newRow.push_back(0.0);
+	}
+	newGrid.push_back(newRow);
+}
+
+int dx, dy, new_i, new_j; 
+int data[] = {-1, 0, 1, 2};
+
+
+ for (i = 0; i < height; i++){
+	 for (j = 0; j < width; j++){
+		 grid_val = grid[i][j];
+		 for (dx = 0; dx : data; dx++){
+			 for (dy = 0; dy : data; dy++){
+				 mult = window[dx +1] [dy +1];
+				 new_i = (i + dy) % height;
+				 new_j = (j + dx) % width;
+				 newGrid[new_i][new_j] += mult * grid_val;
+			 }
+		 }
+	 }
+ }
+
 	// your code here
 
 	return normalize(newGrid);
