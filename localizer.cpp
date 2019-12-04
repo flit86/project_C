@@ -190,22 +190,23 @@ vector< vector <float> > sense(char color,
 
 int i, j;
 float row, g;
+
  
 
-for ( i = 0; i< grid.size(); i++){
-	
-	for ( j= 0; j<grid[0].size(); j++){
+for ( i = 0; i < grid.size(); i++){
+	for ( j= 0; j < grid[0].size(); j++){
 		row = beliefs[i][j];
-
 		if( grid[i][j] == color){
 			g = row * p_hit;
+		else {
+			g = row* p_miss;
+		}	
 		}
-			else {
-				g = row* p_miss;
-			} 
 		newGrid.push_back(g);
-	}	}
+	}
 }
+	
+
 	// your code here
 
 	return normalize(newGrid);
